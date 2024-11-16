@@ -1,0 +1,82 @@
+paths:
+  /api/v1/users:
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      responses:
+        200:
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /api/v1/users/{id}:
+    get:
+      summary: Get a single user by ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the user
+      responses:
+        200:
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: User not found
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        id:
+          type: string
+          description: The auto-generated ID of the user
+        name:
+          type: string
+          description: The name of the user
+        email:
+          type: string
+          format: email
+          description: The email address of the user
+        password:
+          type: string
+          description: The password of the user (hashed)
+        photo:
+          type: string
+          description: The URL of the user's profile photo
+        courseId:
+          type: string
+          description: The ID of the course the user is enrolled in
+        createdAt:
+          type: string
+          format: date-time
+          description: When the user was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: When the user was last updated
+      example:
+        id: "635ad35b091234c9b12345ff"
+        name: "John Doe"
+        email: "john.doe@example.com"
+        password: "hashedpassword123"
+        photo: "https://example.com/photo.jpg"
+        courseId: "635ad35b091234c9b12345gg"
+        createdAt: "2024-11-15T08:55:00Z"
+        updatedAt: "2024-11-15T09:00:00Z"

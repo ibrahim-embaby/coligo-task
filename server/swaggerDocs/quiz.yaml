@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+  title: Quiz API
+  version: 1.0.0
+  description: API to manage quizzes and assignments
+paths:
+  /api/v1/quizzes:
+    get:
+      summary: Get all quizzes
+      tags:
+        - Quizzes
+      responses:
+        200:
+          description: List of quizzes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Quiz"
+    post:
+      summary: Create a new quiz
+      tags:
+        - Quizzes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Quiz"
+      responses:
+        201:
+          description: Quiz created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quiz"
+
+  /api/v1/quizzes/{id}:
+    get:
+      summary: Get a single quiz by ID
+      tags:
+        - Quizzes
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the quiz
+      responses:
+        200:
+          description: Quiz details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quiz"
+        404:
+          description: Quiz not found
+
+    put:
+      summary: Update a quiz by ID
+      tags:
+        - Quizzes
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the quiz
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Quiz"
+      responses:
+        200:
+          description: Quiz updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quiz"
+        404:
+          description: Quiz not found
+
+    delete:
+      summary: Delete a quiz by ID
+      tags:
+        - Quizzes
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the quiz
+      responses:
+        204:
+          description: Quiz deleted successfully
+        404:
+          description: Quiz not found
+
+components:
+  schemas:
+    Quiz:
+      type: object
+      required:
+        - title
+        - topic
+        - dueDate
+      properties:
+        id:
+          type: string
+          description: The auto-generated ID of the quiz
+        type:
+          type: string
+          enum: [quiz, assignment]
+          description: The type of the quiz
+        title:
+          type: string
+          description: The title of the quiz
+        courseId:
+          type: string
+          description: The ID of the course this quiz belongs to
+        topic:
+          type: string
+          description: The topic of the quiz
+        questions:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                type: string
+                description: The quiz question
+              options:
+                type: array
+                items:
+                  type: string
+                description: Answer options for the question
+              answer:
+                type: string
+                description: Correct answer for the question
+        dueDate:
+          type: string
+          format: date
+          description: The due date of the quiz
+        createdAt:
+          type: string
+          format: date-time
+          description: When the quiz was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: When the quiz was last updated
+      example:
+        id: "635ad35b091234c9b12345cc"
+        type: "quiz"
+        title: "Math Quiz 1"
+        courseId: "635ad35b091234c9b12345dd"
+        topic: "Algebra"
+        questions:
+          - question: "What is 2 + 2?"
+            options: ["3", "4", "5", "6"]
+            answer: "4"
+        dueDate: "2024-11-20"
+        createdAt: "2024-11-15T08:55:00Z"
+        updatedAt: "2024-11-15T09:00:00Z"
