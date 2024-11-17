@@ -9,7 +9,7 @@ const { User } = require("../models/User");
  * @description create quiz
  * @route /api/v1/quizzes/
  * @method POST
- * @access private (logged user)
+ * @access private (instructor only)
  */
 module.exports.createQuizCtrl = async (req, res) => {
   try {
@@ -57,7 +57,7 @@ module.exports.createQuizCtrl = async (req, res) => {
  * @description get all quizzes
  * @route /api/v1/quizzes/
  * @method GET
- * @access public
+ * @access private
  */
 module.exports.getAllQuizzesCtrl = async (req, res) => {
   try {
@@ -94,7 +94,7 @@ module.exports.getAllQuizzesCtrl = async (req, res) => {
  * @description get single quiz
  * @route /api/v1/quizzes/:id
  * @method GET
- * @access public
+ * @access private
  */
 module.exports.getSingleQuizCtrl = async (req, res) => {
   try {
@@ -102,7 +102,7 @@ module.exports.getSingleQuizCtrl = async (req, res) => {
     const quiz = await Quiz.findOne({
       _id: req.params.id,
       courseId: { $in: user.courses },
-    });
+    }).populate("courseId");
     if (!quiz) {
       return res.status(404).json({
         success: false,
@@ -124,7 +124,7 @@ module.exports.getSingleQuizCtrl = async (req, res) => {
  * @description update quiz
  * @route /api/v1/quizzes/:id
  * @method PUT
- * @access private (logged user)
+ * @access private (only quiz creator)
  */
 module.exports.updateQuizCtrl = async (req, res) => {
   try {
@@ -173,7 +173,7 @@ module.exports.updateQuizCtrl = async (req, res) => {
  * @description delete quiz
  * @route /api/v1/quizzes/:id
  * @method DELETE
- * @access private (logged user)
+ * @access private (only quiz creator)
  */
 module.exports.deleteQuizCtrl = async (req, res) => {
   try {

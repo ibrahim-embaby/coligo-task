@@ -3,6 +3,7 @@ import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Announcements from "./pages/Announcements";
 import RequireAuth from "./components/Shared/RequireAuth";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         }
       />
       <Route path="/announcements" element={<Announcements />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

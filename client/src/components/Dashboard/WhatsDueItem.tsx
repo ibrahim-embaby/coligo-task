@@ -55,7 +55,7 @@ function WhatsDueItem({ item }: { item: Quiz }) {
           borderRadius: "10px",
         }}
       >
-        {item.type === "quiz" ? "View Quiz" : "Complete Assignment"}
+        {item.type === "quiz" ? "Start Quiz" : "Solve Assignment"}
       </Button>
     </Box>
   );
